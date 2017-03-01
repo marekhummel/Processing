@@ -29,7 +29,7 @@ class Tree {
     }
 
     //Pull the trunk upwards
-    for (float y = 0; -y < CrownArea.minHeight * height; y -= sqrt(attractDisSq)/2) {
+    for (float y = 0; -y < CrownArea.minHeight * height; y -= sqrt(attractDisSq)/4) {
       aps.add(new AttractionPoint(0, y));
     }
   }

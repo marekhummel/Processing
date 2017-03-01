@@ -16,7 +16,7 @@ void setup() {
   t = new Tree(dk, di, d);
   t.genAPs(N);
   
-  cam = new PeasyCam(this, 0, -100, 0, 200);
+  cam = new PeasyCam(this, 0, -100, 0, 300);
 }
 
 

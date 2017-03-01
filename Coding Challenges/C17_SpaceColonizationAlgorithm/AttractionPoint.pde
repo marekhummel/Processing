@@ -13,7 +13,7 @@ class AttractionPoint {
     do {
       scx = random(-1, 1);
       scy = random(1);
-    } while (!CrownArea.inArea(scx, scy));
+    } while (!CrownArea.inArea(scx, scy, 0.1*random(-1, 1)));
 
 
     float x = map(scx, -1, 1, -width/2, width/2);
