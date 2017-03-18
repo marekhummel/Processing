@@ -53,14 +53,7 @@ class Firework {
     if (!exploded) {
       noStroke();
       fill(hue, 100, 100, 80);
-
       ellipse(pos.x, pos.y, 5, 5);
-      beginShape();
-       vertex(pos.x - 2.5, pos.y);
-       vertex(pos.x + 2.5, pos.y);
-       vertex(pos.x, pos.y + 10*speed);
-      endShape(CLOSE);
-
     } else {
       for (Glower g : dust) { 
         g.display();
