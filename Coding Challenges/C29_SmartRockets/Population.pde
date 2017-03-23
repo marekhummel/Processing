@@ -2,6 +2,7 @@ class Population {
 
   int size;
   Individual[] creatures;
+  ArrayList<Obstacle> obstacles;
   int lifespan = 200;
   
   Population(int s) {
@@ -10,9 +11,9 @@ class Population {
     for (int i = 0; i < s; i++) {
       creatures[i] = new Individual(new DNA(lifespan));
     }
+    obstacles = new ArrayList<Obstacle>();
   }
 
- 
    
   
   void generate() {
@@ -36,8 +37,11 @@ class Population {
   
   void run(PVector target) {  
     for (Individual i : creatures) {
-      i.update(target);
+      i.update(target, obstacles);
       i.display();    
+    }
+    for (Obstacle o : obstacles) {
+      o.display();
     }
   }
   
