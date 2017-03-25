@@ -1,6 +1,6 @@
 //http://www.cs.ubc.ca/~rbridson/docs/bridson-siggraph07-poissondisk.pdf
 
-float r = 4;
+float r = 15;
 int k = 30;
 float cs = r / sqrt(2);
 
