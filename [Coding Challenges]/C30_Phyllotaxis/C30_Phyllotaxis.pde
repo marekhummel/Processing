@@ -4,7 +4,7 @@ float angle;
 void setup() {
   size(500, 500);
   c = 7;
-  angle = TWO_PI / pow(0.5 * (1 + sqrt(5)), 2);
+  angle = radians(137.7);    //.3 .5 .7
   
   colorMode(HSB, 1500, 100, 100);
   background(0);

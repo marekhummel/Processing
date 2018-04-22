@@ -18,7 +18,7 @@ void draw() {
   rotate(2*PI/3 * 1.005);
   pushMatrix();
  
-  len-=1;
+ len-=1;
   
-  if (len <= 0) frameRate(0);
+  if (len <= 0) noLoop();
 }

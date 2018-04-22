@@ -5,7 +5,8 @@ int lifetime;
 void setup() {
   size(600, 400);
   p = new Population(25);
-  p.obstacles.add(new Obstacle(0, 150, 280, 20));
+  p.obstacles.add(new Obstacle(-100, 150, 160, 20));
+  p.obstacles.add(new Obstacle(100, 150, 160, 20));
   target = new PVector(0, 20);
 }
 

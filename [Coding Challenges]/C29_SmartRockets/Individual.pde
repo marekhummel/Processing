@@ -32,7 +32,7 @@ class Individual {
     pos.add(vel);
 
     float dist = PVector.dist(pos, target);
-    fitness = 1 / dist;
+    fitness = pow(0.99, dist);
 
     if (pos.x < -width/2 || pos.x > width/2 || pos.y < 0 || pos.y > height) {
       dead = true;

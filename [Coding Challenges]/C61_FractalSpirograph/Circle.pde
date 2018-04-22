@@ -11,10 +11,6 @@ class Circle {
     this(r_, p, s, 0.0);
   }
 
-  Circle(float r_, Circle p, float s, boolean t) {
-    this(r_, p, s, (t ? r_ : 0));
-  }
-
   Circle(float r_, Circle p, float s, float d_) {
     r = r_;
     parent = p;
