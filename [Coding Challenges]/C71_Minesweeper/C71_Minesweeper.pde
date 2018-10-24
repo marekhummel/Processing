@@ -1,8 +1,9 @@
-final int WIDTH = 10;
-final int HEIGHT = 10;
+final int WIDTH = 5;
+final int HEIGHT = 5;
+final double BOMBRATE = 0.13;
+
 final int SQSIZE = 40;
 final int MARGIN = 10;
-final double BOMBRATE = 0.13;
 final int[] TEXT_COLS = new int[] {#1d4991, #057f3a, #ce1208, #60035d, #800000, #42d7f4, #190018, #848484};
 
 Cell[][] cells;
@@ -47,13 +48,22 @@ void draw() {
     }
     
     checkGameState();
-    textSize(95);
     if (gamestate != 0) {
+        textSize(0.8*SQSIZE);
+        for (int xi = 0; xi < WIDTH; xi++) {
+          for (int yi = 0; yi < HEIGHT; yi++) {
+            cells[xi][yi].visible = true;
+            drawCell(xi, yi);
+          }
+        }
+      
         fill(#FFFFFF, 180);
         rect(0, 0, width, height);
         boolean won = (gamestate == 1);
         fill(won ? #00DD00 : #AA0000);
+        textSize(95);
         text(won ? "WON" : "LOST", 0.5*width, 0.45*height);
+        noLoop();
     }     
 }
 
@@ -129,8 +139,11 @@ void reveal(int x, int y) {
 void drawCell(int x, int y) {
     if (cells[x][y].visible) {
         if (cells[x][y].value == -1) {
-            fill(0);
+            fill(200);
             rect(x * SQSIZE + MARGIN, y * SQSIZE + MARGIN, SQSIZE, SQSIZE);
+            fill(0);
+            ellipse((x+0.5) * SQSIZE + MARGIN, (y+0.5) * SQSIZE + MARGIN, 0.7*SQSIZE, 0.7*SQSIZE);
+     
         }
         else {
             fill(200);
