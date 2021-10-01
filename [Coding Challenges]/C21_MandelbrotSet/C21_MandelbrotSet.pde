@@ -1,10 +1,10 @@
 int iter = 256;
 
-float oxmin = -2.5;
-float oxmax = 1;
-float oymin = -1;
-float oymax = 1;
-float xmin, xmax, ymin, ymax;
+double oxmin = -2.5;
+double oxmax = 1;
+double oymin = -1;
+double oymax = 1;
+double xmin, xmax, ymin, ymax;
 
 PVector zoompt;
 float zoom = 1;
@@ -29,15 +29,15 @@ void setup() {
 
 
 void draw() {
-  //float zx = map(mouseX, 0, width, xmin, xmax);
-  //float zy = map(mouseY, 0, height, ymax, ymin);
-  //zoompt = new PVector(zx, zy);
+  float zx = map(mouseX, 0, width, (float)xmin, (float)xmax);
+  float zy = map(mouseY, 0, height, (float)ymax,(float)ymin);
+  zoompt = new PVector(zx, zy);
   //zoomIn();
 
   loadPixels();
   for (int x = 0; x < width; x++) {
     for (int y = 0; y < height; y++) {
-      pixels[y * width + x] = color(pts[x][y]);//gradient[pts[x][y]];
+      pixels[y * width + x] = color(pts[x][y]);//gradient[pts[x][y]]; //
     }
   }
   updatePixels();
@@ -72,25 +72,27 @@ void setGradient() {
 
 
 void calc() {
-  for (float x = xmin; x < xmax; x+=(xmax - xmin)/width) {
-    for (float y = ymin; y < ymax; y+=(ymax - ymin)/height) {
+  for (double x = xmin; x < xmax; x+=(xmax - xmin)/width) {
+    for (double y = ymin; y < ymax; y+=(ymax - ymin)/height) {
 
       int i;
-      float re = x, im = y;
+      double re = x, im = y;
       for (i = 0; i < iter; i++) {
-        float nre = re*re - im*im + x; 
-        float nim = 2 * re * im + y;
+        double nre = re*re - im*im + x; 
+        double nim = 2 * re * im + y;
         re = nre;
         im = nim;
         if (re*re + im*im > 4) break;
       }
 
-      int scx = floor(map(x, xmin, xmax, 0, width));
-      int scy = floor(map(y, ymin, ymax, height, 0));
-      pts[scx][scy] = floor(sqrt(float(i) / iter) * 255);//i % gradient.length;
+      int scx = floor(map((float)x, (float)xmin, (float)xmax, 0, width));
+      int scy = floor(map((float)y, (float)ymin, (float)ymax, height, 0));
+      pts[scx][scy] = floor(sqrt(float(i) / iter) * 255); // i % gradient.length; //
     }
   }
 }
+
+
 
 
 void zoomIn() {
@@ -100,5 +102,8 @@ void zoomIn() {
   xmax = zoompt.x + (oxmax - oxmin)/(2 * zoom);
   ymin = zoompt.y - (oymax - oymin)/(2 * zoom);
   ymax = zoompt.y + (oymax - oymin)/(2 * zoom);
+  
+  println(xmin, xmax, ymin, ymax);
+  
   calc();
 }

@@ -43,7 +43,7 @@ class Cell {
     } else {
       beginShape();
       for (float theta = 0; theta < TWO_PI; theta+=PI/36) {
-        float wr = r + map(random(1), 0, 1, -r/16, r/16);
+        float wr = r + map(random(1), 0, 1, -r/16, r/16); // noise instead of random
         float x = pos.x + wr * cos(theta);
         float y = pos.y + wr * sin(theta);
         vertex(x, y);

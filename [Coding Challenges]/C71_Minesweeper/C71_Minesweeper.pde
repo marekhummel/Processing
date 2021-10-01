@@ -1,5 +1,5 @@
-final int WIDTH = 5;
-final int HEIGHT = 5;
+final int WIDTH = 20;
+final int HEIGHT = 10;
 final double BOMBRATE = 0.13;
 
 final int SQSIZE = 40;
@@ -17,7 +17,7 @@ void setup() {
     textFont(createFont("Snap ITC", 0.8*SQSIZE));
     surface.setSize(WIDTH * SQSIZE + 2 * MARGIN, HEIGHT * SQSIZE + 2 * MARGIN);
     cells = new Cell[WIDTH][HEIGHT];
-     
+        
     for (int xi = 0; xi < WIDTH; xi++) {
         for (int yi = 0; yi < HEIGHT; yi++) {
             cells[xi][yi] = new Cell();
@@ -51,12 +51,12 @@ void draw() {
     if (gamestate != 0) {
         textSize(0.8*SQSIZE);
         for (int xi = 0; xi < WIDTH; xi++) {
-          for (int yi = 0; yi < HEIGHT; yi++) {
-            cells[xi][yi].visible = true;
-            drawCell(xi, yi);
-          }
+            for (int yi = 0; yi < HEIGHT; yi++) {
+                cells[xi][yi].visible = true;
+                drawCell(xi, yi);
+            }
         }
-      
+        
         fill(#FFFFFF, 180);
         rect(0, 0, width, height);
         boolean won = (gamestate == 1);
@@ -143,7 +143,7 @@ void drawCell(int x, int y) {
             rect(x * SQSIZE + MARGIN, y * SQSIZE + MARGIN, SQSIZE, SQSIZE);
             fill(0);
             ellipse((x+0.5) * SQSIZE + MARGIN, (y+0.5) * SQSIZE + MARGIN, 0.7*SQSIZE, 0.7*SQSIZE);
-     
+        
         }
         else {
             fill(200);
