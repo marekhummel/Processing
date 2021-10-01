@@ -3,7 +3,7 @@ Tree t;
 void setup() {
   size(600, 600);
   t = new Tree(10000, 20);
-  frameRate(2);
+  frameRate(10);
   stroke(0);
   textAlign(CENTER, CENTER);
   textSize(10);

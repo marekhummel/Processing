@@ -25,7 +25,7 @@ class Column {
 
   void reset(boolean init) {
     tip = init ? floor(random(-totalrows, 0)) : 1;
-    len = floor(random(5, totalrows - 8));
+    len = floor(random(10, totalrows - 8));
   }
 
 
@@ -37,7 +37,9 @@ class Column {
 
 
   void change() {
-    for (Symbol s : symbols) s.change();
+    for (Symbol s : symbols)
+      if (random(1) < 0.5)
+        s.change();
   }
 
 

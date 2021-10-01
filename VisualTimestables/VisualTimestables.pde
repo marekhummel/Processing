@@ -1,3 +1,9 @@
+float maxfactor = 10;
+boolean allowFloatingFactor = true;
+
+
+
+
 float _factor = 2;
 int _modulus = 200;    // amount of points on circle
 
@@ -17,12 +23,13 @@ void setup() {
 void draw() {
   background(255);
   translate(width/2, height/2);
-  rotate(PI);  //so the point in the east is fixed rather than the one in the west
+  rotate(PI);  //so the point in the west is fixed rather than the one in the east
   
   
   //Catch mouse 
   _modulus = int(constrain(map(mouseX, 0, 0.8*width, 2, 200), 2, 200)); 
-  _factor = int(map(mouseY, 0, height, 2, 100));
+  _factor = map(mouseY, 0, height, 2, maxfactor);
+  _factor = (allowFloatingFactor ? _factor : int(_factor));
   
   
   //Draw circle itself (the perimeter)
@@ -32,7 +39,7 @@ void draw() {
   ellipse(0, 0, 2*_circlerad, 2*_circlerad); 
 
 
-  int hue = int(map(_factor, 2, 100, 0, 255));
+  int hue = int(map(_factor, 2, maxfactor, 0, 255));
   int sat = int(map(_modulus, 2, 200, 200, 255));
   
   
