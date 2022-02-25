@@ -1,6 +1,7 @@
 window_size = 750
-max_n = 10000  # max 300000
-runtime = 5
+max_n = 1000  # max 300000
+runtime = 3
+plot_random = False
 
 back_color = color(10)
 one_color = color(0, 127, 255)
@@ -40,7 +41,8 @@ def setup():
     dir = 0
     for n in range(1, max_n + 1):
         # Set info
-        n_info.append((n, i, j, n in primes))
+        pred = n in primes if not plot_random else random(1) < float(len(primes)) / max_n
+        n_info.append((n, i, j, pred))
         
         # Update coordinates depending on direction
         if dir == 0:
@@ -56,7 +58,7 @@ def setup():
         step += 1
         if step == steplen:
             # Line end, update direction and line length if needed
-            if inc:
+            if inc:  # Only update line length every two updates
                 steplen += 1
             inc = not inc
             step = 0
