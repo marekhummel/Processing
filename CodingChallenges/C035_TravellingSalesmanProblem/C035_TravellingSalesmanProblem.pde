@@ -8,7 +8,7 @@ float bestdis = 10000000;
 void setup() {
   size(600, 600);
 
-  cities = new PVector[8];
+  cities = new PVector[6];
   for (int i = 0; i < cities.length; i++) {
     cities[i] = new PVector(random(offset, width-offset), random(offset, height-offset));
   }
@@ -67,8 +67,9 @@ void draw() {
   textSize(15);
   text(p(perm) + "    " + dis, 10, 20);
   text(p(best) + "    " + bestdis, 10, 40);
-
-  if (frameCount == total) noLoop();
+  
+  if (frameCount == 1) delay(1000);
+  else if (frameCount == total) noLoop();
   else nextPerm();
 }
 
