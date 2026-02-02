@@ -62,7 +62,7 @@ class RegularNGon(py5.Sketch):
 
     def key_typed(self, e):
         if e.get_key() == "s":
-            elf.save(os.path.dirname(__file__) + "/regular_ngon.jpg")
+            self.save(os.path.dirname(__file__) + "/regular_ngon.jpg")
 
     def setup_circles(self) -> None:
         self.circles = []

@@ -32,6 +32,6 @@ extend-ignore = [
 exclude = ["tools/img_dating/*.py"]
 
 [[tool.mypy.overrides]]
-module = ["py5"]
+module = ["py5", "py5_tools"]
 ignore_errors = true
 ignore_missing_imports = true
