@@ -1,1 +1,2 @@
-processing.exe.lnk
+.venv
+.mypy_cache/

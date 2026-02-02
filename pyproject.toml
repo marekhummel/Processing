@@ -1,0 +1,37 @@
+[project]
+name = "processing"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Marek Hummel",email = "marek.hummel3@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "py5 (>=0.10.9a1,<0.11.0)",
+]
+package-mode = false
+
+[dependency-groups]
+dev = [
+    "ruff (>=0.14.14,<0.15.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 99
+
+[tool.ruff.lint]
+extend-ignore = [
+    "E741", # Allow usage of ambigious variable names (i, l, o)
+]
+exclude = ["tools/img_dating/*.py"]
+
+[[tool.mypy.overrides]]
+module = ["py5"]
+ignore_errors = true
+ignore_missing_imports = true

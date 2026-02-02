@@ -28,10 +28,10 @@ def prime_sieve(n):
 
 def setup():
     global n_info
-    
+
     size(window_size, window_size)
     background(back_color)
-    
+
     # Get coordinates for each cell
     primes = set(prime_sieve(max_n))
     i, j = 0, 0
@@ -43,7 +43,7 @@ def setup():
         # Set info
         pred = n in primes if not plot_random else random(1) < float(len(primes)) / max_n
         n_info.append((n, i, j, pred))
-        
+
         # Update coordinates depending on direction
         if dir == 0:
             i += 1
@@ -53,7 +53,7 @@ def setup():
             i -= 1
         elif dir == 270:
             j += 1
-        
+
         # Increase step in current line of the sprial
         step += 1
         if step == steplen:
@@ -63,35 +63,35 @@ def setup():
             inc = not inc
             step = 0
             dir = (dir + 90) % 360
-    
-    # Set framerate to match runtime
-    frameRate(max_n // (runtime * updates_per_draw))
 
-    
+    # Set framerate to match runtime
+    frame_rate(max_n // (runtime * updates_per_draw))
+
+
 def draw():
     # Draw one in center
     translate(width / 2, height / 2)
-    
+
     for _ in range(updates_per_draw):
         # Abort if last n has been drawn
         if not n_info:
-            noLoop()
+            no_loop()
             return
-        
+
         # Fetch current n
         n, i, j, is_prime = n_info.pop(0)
         x, y = i * sz, j * sz
         used_color = prime_color if is_prime else (one_color if n == 1 else composite_color)
-        
+
         if (sz // 2 > 1):
             fill(used_color)
-            noStroke()
+            no_stroke()
             circle(x, y, sz // 2)
         else:
             noFill()
             stroke(used_color)
             point(x, y)
-            
+
         # textAlign(CENTER, CENTER)
         # fill(back_color)
         # noStroke()
