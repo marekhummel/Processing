@@ -14,7 +14,8 @@ package-mode = false
 
 [dependency-groups]
 dev = [
-    "ruff (>=0.14.14,<0.15.0)"
+    "ruff (>=0.14.14,<0.15.0)",
+    "mypy (>=1.19.1,<2.0.0)"
 ]
 
 
