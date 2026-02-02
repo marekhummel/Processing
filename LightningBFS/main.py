@@ -1,3 +1,4 @@
+import os
 from py5 import Sketch
 
 WINDOW = 800
@@ -26,6 +27,7 @@ class LightningBFS(Sketch):
         self.translate(self.border, self.border)
         self.draw_maze_bg()
 
+        done = False
         if not self.lightning:
             self.light_counter += 1
             if self.light_counter == 1:
@@ -36,9 +38,13 @@ class LightningBFS(Sketch):
             self.draw_front()
         else:
             self.frame_rate(self.get_frame_rate() * 2)
-            self.update_lightning()
+            done = self.update_lightning()
             self.draw_lightning()
         self.draw_maze()
+
+        if done:
+            self.no_loop()
+            self.save(os.path.dirname(__file__) + "/lightning_bfs.jpg")
 
     def compute_maze(self) -> tuple[list[list[bool]], list[list[bool]]]:
         # ** Vertical walls between cells in each row / horizontal walls between rows (initially all walls are set)
@@ -171,16 +177,17 @@ class LightningBFS(Sketch):
                 self.lightning = [(x, y)]
                 return
 
-    def update_lightning(self) -> None:
+    def update_lightning(self) -> bool:
         x, y = self.lightning[-1]
         counter = self.grid[x][y]
         if counter == 1:
-            return
+            return True
 
         next_cell = next(
             (nx, ny) for nx, ny in get_neighbors(x, y) if self.grid[nx][ny] == counter - 1
         )
         self.lightning.append(next_cell)
+        return False
 
     def draw_lightning(self) -> None:
         self.fill(255, 220, 0)

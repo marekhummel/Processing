@@ -47,7 +47,9 @@ class TrigFunctions(Sketch):
         if self.mouse_button == self.LEFT:
             self.stop_update = not self.stop_update
             self.mouse_moved()
-        elif self.mouse_button == self.RIGHT:
+
+    def key_typed(self, e):
+        if e.get_key() == "s":
             self.save(os.path.dirname(__file__) + "/trigs.jpg")
 
     def grid(self):

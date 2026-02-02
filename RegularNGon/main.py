@@ -1,6 +1,7 @@
 # https://www.youtube.com/watch?v=FnRhnZbDprE
 
 import math
+import os
 import py5
 
 N = 6
@@ -58,6 +59,10 @@ class RegularNGon(py5.Sketch):
         points = [c.point() for c in self.circles]
         for i in range(DEPTH):
             points = self.iterate_midpoints(points, i == 0, i == DEPTH - 1)
+
+    def key_typed(self, e):
+        if e.get_key() == "s":
+            elf.save(os.path.dirname(__file__) + "/regular_ngon.jpg")
 
     def setup_circles(self) -> None:
         self.circles = []

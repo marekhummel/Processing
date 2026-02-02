@@ -1,5 +1,6 @@
 # https://www.youtube.com/watch?v=kbKtFN71Lfs
 
+import os
 from py5 import Sketch
 
 WINDOW = 800
@@ -39,6 +40,7 @@ class ChaosGame(Sketch):
         if self.frame_count == 10:
             print("Stop")
             self.no_loop()
+            self.save(os.path.dirname(__file__) + "/chaos_game.jpg")
 
     def gen_triangle(self):
         if not RANDOM_TRIG:

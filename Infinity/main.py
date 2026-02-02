@@ -35,8 +35,9 @@ class Infinity(Sketch):
 
         self.angle += math.pi / C
 
-    def mouse_pressed(self):
-        self.save(os.path.dirname(__file__) + "/infinity.jpg")
+    def key_typed(self, e):
+        if e.get_key() == "s":
+            self.save(os.path.dirname(__file__) + "/infinity.jpg")
 
 
 if __name__ == "__main__":

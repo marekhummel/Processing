@@ -24,7 +24,7 @@ class DrawCircle(py5.Sketch):
         self.text_font(myFont)
         self.text(str(CRADIUS), 0, self.cellsize - 1)
         self.no_loop()
-        # self.save('circle.jpg')
+        self.save("circle.jpg")
 
     def draw_grid(self):
         self.background(245)
