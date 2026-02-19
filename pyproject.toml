@@ -9,13 +9,16 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "py5 (>=0.10.9a1,<0.11.0)",
+    "numpy (>=2.4.2,<3.0.0)",
+    "scipy (>=1.17.0,<2.0.0)",
 ]
 package-mode = false
 
 [dependency-groups]
 dev = [
     "ruff (>=0.14.14,<0.15.0)",
-    "mypy (>=1.19.1,<2.0.0)"
+    "mypy (>=1.19.1,<2.0.0)",
+    "scipy-stubs (>=1.17.0.2,<2.0.0.0)"
 ]
 
 

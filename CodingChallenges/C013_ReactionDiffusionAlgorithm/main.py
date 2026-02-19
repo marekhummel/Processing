@@ -1,8 +1,7 @@
 import os
-from math import floor
-from random import random
+import numpy as np
+from scipy.signal import convolve2d
 from py5 import Sketch
-from tuple import Tuple
 
 
 DA = 1.0
@@ -12,88 +11,49 @@ KILL = 0.062
 DT = 1.0
 UPF = 5  # updates per frame
 
+# Laplacian kernel: center -1, adjacent .2, diagonals .05
+LAPLACE_KERNEL = np.array([[0.05, 0.2, 0.05], [0.2, -1.0, 0.2], [0.05, 0.2, 0.05]])
+
 
 class C013_ReactionDiffusionAlgorithm(Sketch):
-    _cells: list[list[Tuple]] = []
-    _laplace: list[list[Tuple]] = []
-
     def settings(self):
         self.size(300, 300)
+        self.pixel_density(1)
 
     def setup(self):
-        self._cells = []
-        self._laplace = []
-        for x in range(self.width):
-            cells_col = []
-            laplace_col = []
-            for y in range(self.height):
-                cells_col.append(Tuple(1.0, 0.0))
-                laplace_col.append(Tuple(1.0, 0.0))
-            self._cells.append(cells_col)
-            self._laplace.append(laplace_col)
+        # Initialize as 2D numpy arrays: a and b channels
+        self.a = np.ones((self.height, self.width), dtype=np.float32)
+        self.b = np.zeros((self.height, self.width), dtype=np.float32)
 
+        # Seed with random circles
         for i in range(10):
-            cx = floor(random() * (self.width - 10))
-            cy = floor(random() * (self.height - 10))
-            for xoff in range(10):
-                for yoff in range(10):
-                    self._cells[cx + xoff][cy + yoff] = Tuple(1.0, 1.0)
-
-        self.update_laplace()
+            cx = int(np.random.random() * (self.width - 10))
+            cy = int(np.random.random() * (self.height - 10))
+            self.b[cy : cy + 10, cx : cx + 10] = 1.0
 
     def draw(self):
-        # Update
+        # Update reaction-diffusion
         for i in range(UPF):
-            new_cells = []
-            for x in range(self.width):
-                col = []
-                for y in range(self.height):
-                    col.append(self.calc_new_values(x, y))
-                new_cells.append(col)
-            self._cells = new_cells
-            self.update_laplace()
+            lap_a = convolve2d(self.a, LAPLACE_KERNEL, mode="same", boundary="wrap")
+            lap_b = convolve2d(self.b, LAPLACE_KERNEL, mode="same", boundary="wrap")
+
+            # Vectorized reaction-diffusion update
+            ab2 = self.a * self.b * self.b
+            self.a += (DA * lap_a - ab2 + FEED * (1 - self.a)) * DT
+            self.b += (DB * lap_b + ab2 - (KILL + FEED) * self.b) * DT
+
+            # Clamp values
+            np.clip(self.a, 0, 1, out=self.a)
+            np.clip(self.b, 0, 1, out=self.b)
 
         # Draw
-        self.load_pixels()
-        for x in range(1, self.width - 1):
-            for y in range(1, self.height - 1):
-                index = x + y * self.width
-                self.pixels[index] = self.color((self._cells[x][y].a - self._cells[x][y].b) * 255)
-        self.update_pixels()
-        print(self.get_frame_rate())
-
-    def calc_new_values(self, x: int, y: int) -> Tuple:
-        old = self._cells[x][y]
-        lp = self._laplace[x][y]
-        a = old.a + (DA * lp.a - old.a * old.b * old.b + FEED * (1 - old.a)) * DT
-        b = old.b + (DB * lp.b + old.a * old.b * old.b - (KILL + FEED) * old.b) * DT
-        return Tuple(max(0, min(a, 1)), max(0, min(b, 1)))
-
-    def update_laplace(self):
-        # "The Laplacian is performed with a 3x3 convolution with center weight -1, adjacent neighbors .2, and diagonals .05"
-        for x in range(1, self.width - 1):
-            for y in range(1, self.height - 1):
-                a = self._cells[x][y].a * -1
-                a += self._cells[x + 1][y].a * 0.2
-                a += self._cells[x - 1][y].a * 0.2
-                a += self._cells[x][y + 1].a * 0.2
-                a += self._cells[x][y - 1].a * 0.2
-                a += self._cells[x + 1][y + 1].a * 0.05
-                a += self._cells[x + 1][y - 1].a * 0.05
-                a += self._cells[x - 1][y + 1].a * 0.05
-                a += self._cells[x - 1][y - 1].a * 0.05
-
-                b = self._cells[x][y].b * -1
-                b += self._cells[x + 1][y].b * 0.2
-                b += self._cells[x - 1][y].b * 0.2
-                b += self._cells[x][y + 1].b * 0.2
-                b += self._cells[x][y - 1].b * 0.2
-                b += self._cells[x + 1][y + 1].b * 0.05
-                b += self._cells[x + 1][y - 1].b * 0.05
-                b += self._cells[x - 1][y + 1].b * 0.05
-                b += self._cells[x - 1][y - 1].b * 0.05
-
-                self._laplace[x][y] = Tuple(a, b)
+        self.load_np_pixels()
+        gray = np.clip((self.a - self.b) * 255, 0, 255).astype(np.uint8)
+        self.np_pixels[:, :, 0] = gray
+        self.np_pixels[:, :, 1] = gray
+        self.np_pixels[:, :, 2] = gray
+        self.np_pixels[:, :, 3] = 255
+        self.update_np_pixels()
 
     def key_pressed(self, e):
         if e.get_key() == "s":
